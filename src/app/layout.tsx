@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "이차탈래? 관리자 페이지",
-  description: "이차탈래? 관리자 페이지",
+  title: "승계랜드 관리자 페이지",
+  description: "승계랜드 관리자 페이지",
 };
 
 export default function RootLayout({
@@ -24,11 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
     </html>
   );
 }
