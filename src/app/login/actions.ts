@@ -15,6 +15,7 @@ const MY_PW = process.env.SEUNGYELAND_PASSWORD;
 export async function login(_: LoginErrors, formdata: FormData): Promise<LoginErrors> {
   const userId = formdata.get("승계랜드_id")?.toString();
   const userPw = formdata.get("승계랜드_password")?.toString();
+  const returnTo = formdata.get("returnTo")?.toString() ?? "/";
 
   const errors: LoginErrors = {};
 
@@ -44,7 +45,7 @@ export async function login(_: LoginErrors, formdata: FormData): Promise<LoginEr
   await session.save();
 
   // 성공
-  return redirect("/");
+  return redirect(returnTo);
 }
 
 /** 로그아웃 */

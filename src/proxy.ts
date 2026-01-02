@@ -5,18 +5,26 @@ export async function proxy(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   const isLoggedIn = (await getSession()).id;
 
+  // 메인 페이지는 패스
+  if (pathname === "/") {
+    return NextResponse.next();
+  }
+
   // 로그인 페이지 접근
   if (pathname.startsWith("/login")) {
-    // 이미 로그인 상태면 메인으로 튕김
+    // 로그인된 상태면 메인으로
     if (isLoggedIn) {
       return NextResponse.redirect(new URL("/", req.url));
     }
     return NextResponse.next();
   }
 
-  // 보호된 페이지
+  // 프라이빗 페이지
   if (!isLoggedIn) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    const loginUrl = new URL("/login", req.url);
+    loginUrl.searchParams.set("returnTo", pathname);
+
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
