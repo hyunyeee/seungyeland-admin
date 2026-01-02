@@ -11,6 +11,12 @@ type LoginErrors = {
 const MY_ID = process.env.SEUNGYELAND_ID;
 const MY_PW = process.env.SEUNGYELAND_PASSWORD;
 
+function safeRedirect(path: string) {
+  if (!path.startsWith("/")) return "/";
+  if (path.startsWith("//")) return "/";
+  return path;
+}
+
 /** 로그인, useActionState 전용 */
 export async function login(_: LoginErrors, formdata: FormData): Promise<LoginErrors> {
   const userId = formdata.get("승계랜드_id")?.toString();
@@ -45,7 +51,7 @@ export async function login(_: LoginErrors, formdata: FormData): Promise<LoginEr
   await session.save();
 
   // 성공
-  return redirect(returnTo);
+  return redirect(safeRedirect(returnTo));
 }
 
 /** 로그아웃 */
