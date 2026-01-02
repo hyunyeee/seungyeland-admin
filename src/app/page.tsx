@@ -1,11 +1,17 @@
 import Link from "next/link";
 import { MessageSquare, PenSquare, CarFront } from "lucide-react";
+import { AuthButton } from "./components/login/AuthButton";
+import { getSession } from "@/lib/session";
 
-export default function Home() {
+export default async function Home() {
+  const isLoggedIn = Boolean((await getSession()).id);
+
   return (
     <div className="mx-auto max-w-4xl p-8">
-      <h1 className="mb-8 text-2xl font-semibold tracking-tight text-slate-900">관리자 메뉴</h1>
-
+      <header className="mb-8 flex items-center justify-between">
+        <h1 className="text-2xl font-semibold tracking-tight text-slate-900">관리자 메뉴</h1>
+        <AuthButton isLoggedIn={isLoggedIn} />
+      </header>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {/* 고객 문의 관리 */}
         <Link
