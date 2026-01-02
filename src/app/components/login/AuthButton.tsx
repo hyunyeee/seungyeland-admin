@@ -13,7 +13,7 @@ function LoginButton() {
   const router = useRouter();
 
   return (
-    <Button onClick={() => router.push("/login")} variant="outline" className="cursor-pointer">
+    <Button onClick={() => router.push("/login")} variant="default" className="cursor-pointer">
       로그인
     </Button>
   );
