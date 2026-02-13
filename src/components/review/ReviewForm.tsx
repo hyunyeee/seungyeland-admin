@@ -34,7 +34,7 @@ export default function ReviewForm() {
     const formData = new FormData(form);
 
     try {
-      const res = await fetch(`${API_BASE}/reviews`, {
+      const res = await fetch(`${API_BASE}/admin/reviews`, {
         method: "POST",
         credentials: "include",
         body: formData,

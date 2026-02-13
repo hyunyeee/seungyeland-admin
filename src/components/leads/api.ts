@@ -31,3 +31,16 @@ export async function updateLeadApi(
 
   return res.json().catch(() => ({}));
 }
+
+export async function deleteLeadApi(id: number) {
+  const res = await fetch(`${API_BASE}/management/${id}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error(`Delete failed: ${res.status}`);
+  }
+
+  return res.json().catch(() => ({}));
+}
