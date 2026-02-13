@@ -1,4 +1,4 @@
-import LeadsTable from "@/app/components/leads/LeadsTable";
+import LeadsTable from "@/components/leads/LeadsTable";
 
 export default function ManagementPage() {
   return (

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { MessageSquare, PenSquare, CarFront } from "lucide-react";
-import { AuthButton } from "./components/login/AuthButton";
+import { AuthButton } from "@/components/login/AuthButton";
 import { getSession } from "@/lib/session";
 
 export default async function Home() {

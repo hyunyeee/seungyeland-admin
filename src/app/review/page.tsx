@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ChevronLeft, ExternalLink } from "lucide-react";
-import ReviewForm from "@/app/components/review/ReviewForm";
+import ReviewForm from "@/components/review/ReviewForm";
 
 export default function ReviewCreatePage() {
   return (
