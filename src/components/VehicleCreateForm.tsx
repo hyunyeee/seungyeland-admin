@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { OptionSelector } from "@/components/vehicles/OptionSelector";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -25,6 +26,18 @@ export default function VehicleCreateForm() {
     const formData = new FormData(e.currentTarget);
 
     console.log(formData);
+    e.preventDefault();
+
+    // 🔥 옵션 배열 확인
+    const options = formData.getAll("options");
+    console.log("FormData options:", options);
+
+    // 전체 payload 확인
+    for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
+    setLoading(false);
     // try {
     //   const res = await fetch(`${API_BASE}/admin/vehicles`, {
     //     method: "POST",
@@ -107,10 +120,7 @@ export default function VehicleCreateForm() {
       {/* 옵션 */}
       <section className="space-y-4">
         <h2 className="text-lg font-semibold">옵션</h2>
-        <Textarea
-          name="options"
-          placeholder="옵션을 , 로 구분해 입력하세요 (예: 네비게이션, 선루프)"
-        />
+        <OptionSelector />
       </section>
 
       {/* 이미지 */}
