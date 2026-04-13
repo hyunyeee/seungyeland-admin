@@ -11,7 +11,7 @@ export function VehicleCard(vehicle: VehicleSummary) {
   return (
     <Link
       href={`/vehicle/${id}`}
-      className="flex items-center gap-3 transition hover:scale-95 sm:flex-col sm:items-start sm:gap-2"
+      className="flex items-center gap-3  sm:flex-col sm:items-start sm:gap-2"
     >
       {/* 이미지 */}
       <div className="size-32 shrink-0 overflow-hidden rounded-lg sm:h-60 sm:w-full">
