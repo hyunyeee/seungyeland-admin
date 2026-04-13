@@ -28,7 +28,7 @@ export default function Pagination({ current, total }: PaginationProps) {
     <div className="mt-24 flex items-center justify-center gap-2">
       {/* 첫 페이지 */}
       <Link
-        href={`/vehicle?page=1`}
+        href={`/vehicles?page=1`}
         className={`flex size-9 items-center justify-center rounded-lg border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-100 ${
           isFirst ? "pointer-events-none opacity-40" : ""
         }`}
@@ -38,7 +38,7 @@ export default function Pagination({ current, total }: PaginationProps) {
 
       {/* 이전 */}
       <Link
-        href={`/vehicle?page=${Math.max(current - 1, 1)}`}
+        href={`/vehicles?page=${Math.max(current - 1, 1)}`}
         className={`flex size-9 items-center justify-center rounded-lg border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-100 ${
           isFirst ? "pointer-events-none opacity-40" : ""
         }`}
@@ -73,7 +73,7 @@ export default function Pagination({ current, total }: PaginationProps) {
 
       {/* 마지막 */}
       <Link
-        href={`/vehicle?page=${total}`}
+        href={`/vehicles?page=${total}`}
         className={`flex size-9 items-center justify-center rounded-lg border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-100 ${
           isLast ? "pointer-events-none opacity-40" : ""
         }`}
