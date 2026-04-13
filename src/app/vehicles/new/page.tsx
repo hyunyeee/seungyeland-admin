@@ -26,11 +26,7 @@ export default function VehicleCreatePage() {
           </Link>
 
           {/* 승계랜드 새 탭 */}
-          <a
-            href="https://seungyeland.vercel.app/vehicle"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://seungyeland.com/vehicle" target="_blank" rel="noopener noreferrer">
             <Button className="flex items-center gap-1">
               사이트에서 차량 목록 보기
               <ExternalLink className="h-4 w-4" />
