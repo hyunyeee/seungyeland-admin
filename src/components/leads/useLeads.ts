@@ -6,7 +6,7 @@ import { fetchLeadsApi, updateLeadApi, deleteLeadApi } from "./api";
 
 export function useLeads() {
   const [page, setPage] = useState(0);
-  const [pageSize] = useState(3);
+  const [pageSize] = useState(5);
   const [data, setData] = useState<Lead[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
@@ -40,18 +40,14 @@ export function useLeads() {
     setSavingIds((s) => new Set(s).add(row.id));
 
     setData((prev) =>
-      prev.map((d) =>
-        d.id === row.id ? { ...d, isContacted: !d.isContacted } : d,
-      ),
+      prev.map((d) => (d.id === row.id ? { ...d, isContacted: !d.isContacted } : d)),
     );
 
     try {
       await updateLeadApi(row.id, { isContacted: !row.isContacted });
     } catch {
       setData((prev) =>
-        prev.map((d) =>
-          d.id === row.id ? { ...d, isContacted: row.isContacted } : d,
-        ),
+        prev.map((d) => (d.id === row.id ? { ...d, isContacted: row.isContacted } : d)),
       );
     } finally {
       setSavingIds((s) => {
@@ -68,9 +64,7 @@ export function useLeads() {
 
     try {
       await updateLeadApi(row.id, { notes: next });
-      setData((prev) =>
-        prev.map((d) => (d.id === row.id ? { ...d, notes: next } : d)),
-      );
+      setData((prev) => prev.map((d) => (d.id === row.id ? { ...d, notes: next } : d)));
     } finally {
       setSavingIds((s) => {
         const n = new Set(s);
@@ -110,10 +104,7 @@ export function useLeads() {
   };
 
   const showingFrom = useMemo(() => page * pageSize + 1, [page, pageSize]);
-  const showingTo = useMemo(
-    () => page * pageSize + data.length,
-    [page, pageSize, data.length],
-  );
+  const showingTo = useMemo(() => page * pageSize + data.length, [page, pageSize, data.length]);
 
   return {
     data,
