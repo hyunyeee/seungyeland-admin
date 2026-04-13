@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { VehicleSummary } from "@/types/vehicle";
 import { ImageSpace } from "@/components/ui/ImageSpace";
 
@@ -9,10 +8,7 @@ export function VehicleCard(vehicle: VehicleSummary) {
   const { id, title, thumbnail, year, price, mileage, fuelType, gearType, color } = vehicle;
 
   return (
-    <Link
-      href={`/vehicle/${id}`}
-      className="flex items-center gap-3  sm:flex-col sm:items-start sm:gap-2"
-    >
+    <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-2">
       {/* 이미지 */}
       <div className="size-32 shrink-0 overflow-hidden rounded-lg sm:h-60 sm:w-full">
         {thumbnail ? (
@@ -32,6 +28,6 @@ export function VehicleCard(vehicle: VehicleSummary) {
 
         <p className="mt-3 text-xl font-bold">{formatNumber(price)}만원</p>
       </div>
-    </Link>
+    </div>
   );
 }
