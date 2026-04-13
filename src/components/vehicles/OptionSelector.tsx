@@ -5,10 +5,11 @@ import { useState, useEffect } from "react";
 
 interface Props {
   name?: string;
+  defaultValues?: string[];
 }
 
-export function OptionSelector({ name = "options" }: Props) {
-  const [selected, setSelected] = useState<string[]>([]);
+export function OptionSelector({ name = "options", defaultValues = [] }: Props) {
+  const [selected, setSelected] = useState<string[]>(defaultValues);
 
   const toggleOption = (value: string) => {
     setSelected((prev) =>
@@ -16,14 +17,12 @@ export function OptionSelector({ name = "options" }: Props) {
     );
   };
 
-  // 🔥 선택 배열 확인용 콘솔
   useEffect(() => {
-    console.log("현재 선택된 옵션:", selected);
-  }, [selected]);
+    setSelected(defaultValues);
+  }, [defaultValues]);
 
   return (
     <div className="space-y-8">
-      {/* 선택 개수 표시 */}
       <div className="text-sm text-neutral-600">
         선택된 옵션: <span className="font-semibold">{selected.length}</span>개
       </div>
