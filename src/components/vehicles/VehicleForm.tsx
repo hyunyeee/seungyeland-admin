@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { OptionSelector } from "@/components/vehicles/OptionSelector";
+import { AdminFinanceEditor } from "@/components/vehicles/AdminFinanceEditor";
 import { createVehicle, updateVehicle } from "@/lib/api/adminVehicles";
 import { VehicleDetail } from "@/types/vehicle";
-import { AdminFinanceEditor } from "@/components/vehicles/AdminFinanceEditor";
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 type CreateProps = {
   mode: "create";
@@ -30,6 +32,8 @@ export default function VehicleForm(props: Props) {
 
   const [previews, setPreviews] = useState<string[]>(defaultValues?.images ?? []);
   const [loading, setLoading] = useState(false);
+  const [rent, setRent] = useState("");
+  const [lease, setLease] = useState("");
 
   const router = useRouter();
 
@@ -37,6 +41,48 @@ export default function VehicleForm(props: Props) {
   const onImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? []);
     setPreviews(files.map((f) => URL.createObjectURL(f)));
+  };
+
+  const saveFinanceInfo = async (id: number) => {
+    const requests: Promise<Response>[] = [];
+
+    if (rent.trim()) {
+      requests.push(
+        fetch(`${API_BASE}/lease-info/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            vehicleId: id,
+            type: "rent",
+            data: {
+              content: rent,
+            },
+          }),
+        }),
+      );
+    }
+
+    if (lease.trim()) {
+      requests.push(
+        fetch(`${API_BASE}/lease-info/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            vehicleId: id,
+            type: "lease",
+            data: {
+              content: lease,
+            },
+          }),
+        }),
+      );
+    }
+
+    await Promise.all(requests);
   };
 
   /** 제출 */
@@ -48,8 +94,10 @@ export default function VehicleForm(props: Props) {
 
     try {
       if (mode === "create") {
-        await createVehicle(formData);
+        const createdId = await createVehicle(formData);
+        await saveFinanceInfo(createdId);
         alert("차량 등록 완료");
+        router.push("/vehicles");
       } else {
         if (!vehicleId) throw new Error("vehicleId 없음");
         await updateVehicle(vehicleId, formData);
@@ -178,7 +226,14 @@ export default function VehicleForm(props: Props) {
         <OptionSelector defaultValues={defaultValues?.options ?? []} />
       </section>
 
-      <AdminFinanceEditor vehicleId={vehicleId!} />
+      <AdminFinanceEditor
+        mode={mode}
+        vehicleId={vehicleId}
+        rent={rent}
+        lease={lease}
+        onRentChange={setRent}
+        onLeaseChange={setLease}
+      />
 
       {/* 이미지 */}
       <section className="space-y-4">
