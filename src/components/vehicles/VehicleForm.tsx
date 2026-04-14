@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { OptionSelector } from "@/components/vehicles/OptionSelector";
 import { createVehicle, updateVehicle } from "@/lib/api/adminVehicles";
 import { VehicleDetail } from "@/types/vehicle";
+import { AdminFinanceEditor } from "@/components/vehicles/AdminFinanceEditor";
 
 type CreateProps = {
   mode: "create";
@@ -55,7 +56,7 @@ export default function VehicleForm(props: Props) {
         alert("차량 수정 완료");
       }
 
-      router.push("/vehicles");
+      // router.push("/vehicles");
     } catch (error) {
       console.error(error);
       alert("에러 발생");
@@ -176,6 +177,8 @@ export default function VehicleForm(props: Props) {
         <h2 className="text-lg font-semibold">옵션</h2>
         <OptionSelector defaultValues={defaultValues?.options ?? []} />
       </section>
+
+      <AdminFinanceEditor vehicleId={vehicleId!} />
 
       {/* 이미지 */}
       <section className="space-y-4">
