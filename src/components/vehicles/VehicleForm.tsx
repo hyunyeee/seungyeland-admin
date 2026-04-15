@@ -34,6 +34,7 @@ export default function VehicleForm(props: Props) {
   const [loading, setLoading] = useState(false);
   const [rent, setRent] = useState("");
   const [lease, setLease] = useState("");
+  const [supportFeeType, setSupportFeeType] = useState(defaultValues?.supportFeeType ?? "");
 
   const router = useRouter();
 
@@ -102,9 +103,8 @@ export default function VehicleForm(props: Props) {
         if (!vehicleId) throw new Error("vehicleId 없음");
         await updateVehicle(vehicleId, formData);
         alert("차량 수정 완료");
+        router.push("/vehicles");
       }
-
-      // router.push("/vehicles");
     } catch (error) {
       console.error(error);
       alert("에러 발생");
@@ -122,22 +122,32 @@ export default function VehicleForm(props: Props) {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <Label>제목</Label>
-            <Input name="title" defaultValue={defaultValues?.title} required />
+            <Input
+              name="title"
+              defaultValue={defaultValues?.title}
+              placeholder="K8 하이브리드 노블레스"
+              required
+            />
           </div>
 
           <div>
             <Label>모델명</Label>
-            <Input name="model" defaultValue={defaultValues?.model} required />
+            <Input
+              name="model"
+              defaultValue={defaultValues?.model}
+              placeholder="K8 하이브리드"
+              required
+            />
           </div>
 
           <div>
             <Label>연식</Label>
-            <Input name="year" defaultValue={defaultValues?.year} />
+            <Input name="year" defaultValue={defaultValues?.year} placeholder="2024" />
           </div>
 
           <div>
             <Label>색상</Label>
-            <Input name="color" defaultValue={defaultValues?.color} />
+            <Input name="color" defaultValue={defaultValues?.color} placeholder="화이트" />
           </div>
 
           <div>
@@ -178,6 +188,7 @@ export default function VehicleForm(props: Props) {
           name="description"
           rows={6}
           defaultValue={defaultValues?.description ?? ""}
+          placeholder="차량 특징, 옵션, 상태 등을 입력하세요."
           className="w-full rounded-xl border p-3 text-sm"
         />
       </section>
@@ -189,33 +200,83 @@ export default function VehicleForm(props: Props) {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div>
             <Label>주행거리 (km)</Label>
-            <Input type="number" name="mileage" defaultValue={defaultValues?.mileage} />
+            <Input
+              type="number"
+              name="mileage"
+              defaultValue={defaultValues?.mileage}
+              placeholder="12000"
+            />
           </div>
 
           <div>
             <Label>차량 가격</Label>
-            <Input type="number" name="price" defaultValue={defaultValues?.price} />
+            <div className="relative">
+              <Input
+                type="number"
+                name="price"
+                defaultValue={defaultValues?.price}
+                placeholder="3500"
+                className="pr-12"
+              />
+              <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-slate-500">
+                만원
+              </span>
+            </div>
           </div>
 
           <div>
             <Label>월 렌트료</Label>
-            <Input type="number" name="monthFee" defaultValue={defaultValues?.monthFee} />
+            <div className="relative">
+              <Input
+                type="number"
+                name="monthFee"
+                defaultValue={defaultValues?.monthFee}
+                placeholder="45"
+                className="pr-12"
+              />
+              <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-slate-500">
+                만원
+              </span>
+            </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <Label>승계 지원금</Label>
-            <Input type="number" name="supportFee" defaultValue={defaultValues?.supportFee} />
+            <Label>지원금 구분</Label>
+            <select
+              name="support_fee_type"
+              value={supportFeeType}
+              onChange={(e) => setSupportFeeType(e.target.value)}
+              className="w-full rounded-xl border p-2 text-sm"
+              required
+            >
+              <option value="">선택</option>
+              <option value="TAKEOVER">인수금</option>
+              <option value="SUPPORT">승계지원금</option>
+            </select>
           </div>
 
           <div>
-            <Label>사고 이력 (회)</Label>
-            <Input
-              type="number"
-              name="accidentHistory"
-              defaultValue={defaultValues?.accidentHistory}
-            />
+            <Label>
+              {supportFeeType === "TAKEOVER"
+                ? "인수금"
+                : supportFeeType === "SUPPORT"
+                  ? "승계지원금"
+                  : "금액"}
+            </Label>
+            <div className="relative">
+              <Input
+                type="number"
+                name="supportFee"
+                defaultValue={defaultValues?.supportFee}
+                placeholder="300"
+                className="pr-12"
+              />
+              <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-slate-500">
+                만원
+              </span>
+            </div>
           </div>
         </div>
       </section>
