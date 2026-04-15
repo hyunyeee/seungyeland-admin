@@ -38,14 +38,13 @@ export interface VehicleDetail {
 
   monthFee: number;
   supportFee: number;
+  supportFeeType: string;
 
   description: string | null;
 
   color: string;
   fuelType: string | null;
   gearType: string | null;
-
-  accidentHistory: number;
 
   images: string[];
   options: string[];
