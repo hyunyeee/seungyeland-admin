@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -24,6 +24,37 @@ export function AdminFinanceEditor({
 }: Props) {
   const [rentLoading, setRentLoading] = useState(false);
   const [leaseLoading, setLeaseLoading] = useState(false);
+
+  useEffect(() => {
+    if (mode !== "edit" || !vehicleId) return;
+
+    const fetchData = async (type: "rent" | "lease") => {
+      try {
+        const res = await fetch(`${API_BASE}/lease-info?vehicleId=${vehicleId}&type=${type}`, {
+          cache: "no-store",
+        });
+
+        if (!res.ok) {
+          return;
+        }
+
+        const result = await res.json();
+        const content = result?.data?.content ?? result?.data ?? "";
+
+        if (type === "rent") {
+          onRentChange(content);
+          return;
+        }
+
+        onLeaseChange(content);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchData("rent");
+    fetchData("lease");
+  }, [mode, vehicleId, onLeaseChange, onRentChange]);
 
   const handleSave = async (type: "rent" | "lease", content: string) => {
     if (!vehicleId) return;
