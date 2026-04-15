@@ -1,7 +1,7 @@
 "use client";
 
 import { OPTION_CATEGORIES } from "./optionData";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface Props {
   name?: string;
@@ -16,13 +16,12 @@ export function OptionSelector({ name = "options", defaultValues = [] }: Props) 
       prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
     );
   };
-
-  useEffect(() => {
-    setSelected(defaultValues);
-  }, [defaultValues]);
-
   return (
     <div className="space-y-8">
+      {selected.map((value) => (
+        <input key={value} type="hidden" name={name} value={value} />
+      ))}
+
       <div className="text-sm text-neutral-600">
         선택된 옵션: <span className="font-semibold">{selected.length}</span>개
       </div>
@@ -46,8 +45,6 @@ export function OptionSelector({ name = "options", defaultValues = [] }: Props) 
                 >
                   <input
                     type="checkbox"
-                    name={name}
-                    value={item}
                     checked={checked}
                     onChange={() => toggleOption(item)}
                     className="hidden"
